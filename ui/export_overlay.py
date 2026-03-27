@@ -41,7 +41,7 @@ class ExportOverlay(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground, True)
-        self.setStyleSheet("background: rgba(5, 8, 12, 150);")
+        self.setStyleSheet("background: rgba(10, 20, 35, 180);")
         self.hide()
         self._build_ui()
         self._refresh_timestamp()
@@ -57,19 +57,19 @@ class ExportOverlay(QWidget):
         self.card.setStyleSheet(
             """
             QFrame#ExportCard {
-                background: rgba(36, 36, 39, 238);
-                border: 1px solid rgba(255, 255, 255, 0.07);
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(16, 28, 48, 245), stop:1 rgba(9, 15, 26, 245));
+                border: 1px solid rgba(64, 156, 255, 0.15);
                 border-radius: 16px;
             }
             QFrame#ExportHeader {
                 background: rgba(255, 255, 255, 0.02);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                border-bottom: 1px solid rgba(64, 156, 255, 0.1);
                 border-top-left-radius: 16px;
                 border-top-right-radius: 16px;
             }
             QFrame#PreviewPanel {
-                background: #101215;
-                border: 1px solid rgba(255, 255, 255, 0.04);
+                background: rgba(4, 9, 16, 180);
+                border: 1px solid rgba(64, 156, 255, 0.08);
                 border-radius: 10px;
             }
             QFrame#PreviewBar {
@@ -106,12 +106,12 @@ class ExportOverlay(QWidget):
 
         title = QLabel("Export Preview")
         title.setStyleSheet(
-            f"color: #E6FAFF; font-size: {FONT_SIZE_TITLE}px; font-weight: 700;"
+            f"background: transparent; color: #FFFFFF; font-size: {FONT_SIZE_TITLE}px; font-weight: 800; letter-spacing: 0.5px;"
         )
 
         subtitle = QLabel("FILENAME:")
         subtitle.setStyleSheet(
-            f"color: #677382; font-size: {FONT_SIZE_MEDIUM}px; font-weight: 800; letter-spacing: 1px; "
+            f"background: transparent; color: #819ABD; font-size: {FONT_SIZE_MEDIUM}px; font-weight: 800; letter-spacing: 1px; "
             f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
         )
 
@@ -172,13 +172,23 @@ class ExportOverlay(QWidget):
 
         system_lbl = QLabel("KINETIC_DIAGNOSTICS_SYSTEMS")
         system_lbl.setStyleSheet(
-            f"color: #708192; font-size: {FONT_SIZE_MEDIUM}px; font-weight: 800; letter-spacing: 1px; "
-            f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
+             f"""
+            background: transparent;
+            color: #6E7C8A;
+            font-size: {FONT_SIZE_MEDIUM}px;
+            font-weight: 700;
+            font-family: '{FONT_FAMILY_MONO}', monospace;
+            """
         )
 
         report_lbl = QLabel("ANOMALY SUMMARY REPORT")
         report_lbl.setStyleSheet(
-            f"color: #EDF3F9; font-size: {FONT_SIZE_HERO}px; font-weight: 800;"
+            f"""
+            background: transparent;
+            color: #F2F7FB;
+            font-size: {FONT_SIZE_HERO}px;
+            font-weight: 900;
+            """
         )
 
         left_meta.addWidget(system_lbl)
@@ -190,17 +200,27 @@ class ExportOverlay(QWidget):
         generated_key = QLabel("GENERATED_ON")
         generated_key.setAlignment(Qt.AlignRight)
         generated_key.setStyleSheet(
-            f"color: #708192; font-size: {FONT_SIZE_MEDIUM}px; font-weight: 800; letter-spacing: 1px; "
-            f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
+            f"""
+            background: transparent;
+            color: #7F8C9A;
+            font-size: {FONT_SIZE_LARGE}px;
+            font-weight: 600;
+            font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;
+            """
         )
+        
 
         self.generated_value = QLabel()
         self.generated_value.setAlignment(Qt.AlignRight)
         self.generated_value.setStyleSheet(
-            f"color: #D2DBE5; font-size: {FONT_SIZE_LARGE}px; font-weight: 700; "
-            f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
+            f"""
+            background: transparent;
+            color: #DCE6F2;  /* soft accent color for modern UI */
+            font-size: {FONT_SIZE_LARGE + 2}px;  /* slightly larger for emphasis */
+            font-weight: 900;  /* bold to make the value stand out */
+            font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;
+            """
         )
-
         right_meta.addWidget(generated_key)
         right_meta.addWidget(self.generated_value)
 
@@ -213,7 +233,7 @@ class ExportOverlay(QWidget):
         divider.setStyleSheet("background: rgba(255, 255, 255, 0.06); border: none;")
 
         metric_rows = QVBoxLayout()
-        metric_rows.setSpacing(8)
+        metric_rows.setSpacing(10)
         for label, value, color in [
             ("TOTAL_DATA_POINTS_SCANNED", "142,901,442", "#D6DDE6"),
             ("CRITICAL_FAILURES_DETECTED", "03", "#F5AF8B"),
@@ -221,18 +241,23 @@ class ExportOverlay(QWidget):
             ("SIGNAL_INTEGRITY_SCORE", "94.2/100", "#82E3AA"),
         ]:
             row = QHBoxLayout()
-            row.setSpacing(8)
+            row.setSpacing(10)
 
             key = QLabel(label)
             key.setStyleSheet(
-                f"color: #7B8795; font-size: {FONT_SIZE_LARGE}px; font-weight: 700; "
+                f"background: transparent; color: #A4B5CA; font-size: {FONT_SIZE_LARGE}px; font-weight: 700; "
                 f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
             )
             val = QLabel(value)
             val.setStyleSheet(
-                f"color: {color}; font-size: {FONT_SIZE_LARGE}px; font-weight: 800; "
-                f"font-family: '{FONT_FAMILY_MONO}', 'JetBrains Mono', monospace;"
+                f"""
+                background: transparent;
+                color: {color};
+                font-size: {FONT_SIZE_LARGE + 2}px;
+                font-weight: 900;
+                """
             )
+            
 
             row.addWidget(key)
             row.addStretch()
